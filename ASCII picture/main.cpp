@@ -8,7 +8,6 @@ short height,width;//图片宽高数据储存
 char temp;//判断适配背景是否为黑
 short background;
 void togray(FILE *fp2,int *gray);//RGB转仿灰度
-int aaa=0;
 int main()
 {
 	FILE *fp,*fp2;//一大堆定义
@@ -19,9 +18,8 @@ int main()
 	char *path_start=NULL,*path_full=NULL;//文件路径定义
 	path_start=new char[50];//给文件路径储存申请内存
 	path_full=new char[60];
-	
-	logo//人机交互
-	system("title Ascii picture");
+	logo//人机交互，在"夏思远.h"里
+	system("title ASCII picture");//cmd窗口标题
 	printf("请把main.bmp放在与本程序同目录下，按回车继续...");
 	getchar();
 	memset(path_start,'\0',50);//路径初始化并打开文件
@@ -48,16 +46,16 @@ int main()
 	fseek(fp,2L,SEEK_CUR);
 	temp3=fgetc(fp);
 	temp4=fgetc(fp);
-	sprintf(width_c,"%02x%02x\n",temp2,temp1);//字符拼接
+	sprintf(width_c,"%02x%02x\n",temp2,temp1);//字符拼接，以获取图片尺寸
 	sprintf(height_c,"%02x%02x\n",temp4,temp3);
 	width=(short)strtol(width_c,NULL,16);//字符型十六进制转整型十进制
 	height=(short)strtol(height_c,NULL,16);
-	delete [] height_c;//宽高临时储存没用了，释放内存
+	delete [] height_c;//宽高临时储存变量没用了，释放内存
 	delete [] width_c;
 	height_c=NULL;//防治野指针
 	width_c=NULL;
 	printf("图片的尺寸:%d*%d\n",width,height);
-	failure:
+failure:
 	printf("适配黑色背景(Y/N):");
 	temp=getchar();
 	getchar();
@@ -95,10 +93,9 @@ int main()
 			j+=3;k++;
 		}
 		togray(fp2,gray);//转换成字符并写入文件
-		fprintf(fp2," %d\n",aaa);//换行
+		fprintf(fp2," \n");//换行进行新一行字符写入
 		fseek(fp,-6*width,SEEK_CUR);//再往前偏移两行，开始下一轮的读写
 		i++;
-		aaa=0;
 	}
 	delete [] hex;//大家伙没用了，释放内存（都结束了，好像没有必要了吧）
 	delete [] gray;
@@ -107,7 +104,7 @@ int main()
 	fclose(fp2);//关闭两文件
 	fclose(fp);
 	printf("完成");
-	Sleep(2000);
+	Sleep(2000);//延时
 	return 0;//完美收尾
 }
 
@@ -215,6 +212,5 @@ void togray(FILE *fp2,int *gray)
 				fprintf(fp2,"▓");
 		}
 		i++;//下一个灰度
-		aaa++;
 	}
 }
